@@ -32,4 +32,12 @@ public interface ProductMapper {
             "limit #{start},#{offset} " +
             "</script> ")
     List<Product> list(@Param("condition") String condition, @Param("start") Integer start, @Param("offset") Integer offset);
+
+    @Select("<script>" +
+            "select count(*) from product " +
+            "where name = #{name} " +
+            "<if test='id != null'> and id != #{id} " +
+            "</if> " +
+            "</script>")
+    Integer checkNameRepeat(@Param("name")String name,@Param("id") String id);
 }

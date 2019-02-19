@@ -26,5 +26,16 @@ public class ProductServiceImpl implements ProductService {
     public Reply list(String condition,Integer pageNo,Integer pageSize) {
         return ReplyUtil.success(productMapper.list(condition,(pageNo - 1) * pageSize,pageSize));
     }
+
+    @Override
+    public Reply checkNameRepeat(String name, String id) {
+        Reply reply = ReplyUtil.success();
+        Integer count = productMapper.checkNameRepeat(name,id);
+        reply.setData(false);
+        if(count > 0) {
+            reply.setData(true);
+        }
+        return reply;
+    }
 }
 
