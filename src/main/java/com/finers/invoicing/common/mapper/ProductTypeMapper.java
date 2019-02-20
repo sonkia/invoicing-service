@@ -11,6 +11,9 @@ import java.util.List;
 @Mapper
 public interface ProductTypeMapper {
 
+    /**
+     * 新增
+     */
     @Insert("INSERT INTO product_type " +
             "(id, name,code,description) " +
             "VALUES(" +
@@ -20,6 +23,13 @@ public interface ProductTypeMapper {
             "#{description})")
     void add(ProductType productType);
 
+    /**
+     * 分页查询
+     * @param condition
+     * @param start 开始位置
+     * @param offset 偏移量
+     * @return 列表
+     */
     @Select("<script>" +
             "select * from product_type " +
             "where " +
@@ -30,9 +40,19 @@ public interface ProductTypeMapper {
             "</script> ")
     List<ProductType> list(@Param("condition") String condition, @Param("start") Integer start, @Param("offset") Integer offset);
 
+    /**
+     * 查询产品类型名称列表
+     * @return
+     */
     @Select("select name from product_type")
     List<String> getProductTypeNames();
 
+    /**
+     *
+     * @param name
+     * @param id
+     * @return
+     */
     @Select("<script>" +
             "select count(*) from product_type " +
             "where name = #{name} " +

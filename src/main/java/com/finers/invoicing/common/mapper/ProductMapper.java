@@ -11,6 +11,9 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
+    /**
+     * 新增
+     */
     @Insert("INSERT INTO product " +
             "(id, name,code,product_type,description,unit_count) " +
             "VALUES(" +
@@ -22,6 +25,13 @@ public interface ProductMapper {
             "#{unitCount})")
     void add(Product product);
 
+    /**
+     * 分页查询
+     * @param condition
+     * @param start 开始位置
+     * @param offset 偏移量
+     * @return 列表
+     */
     @Select("<script>" +
             "SELECT * from product " +
             "where " +
