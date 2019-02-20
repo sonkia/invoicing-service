@@ -1,10 +1,7 @@
 package com.finers.invoicing.common.mapper;
 
 import com.finers.invoicing.common.entity.ProductType;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -22,6 +19,27 @@ public interface ProductTypeMapper {
             "#{code}," +
             "#{description})")
     void add(ProductType productType);
+
+
+    /**
+     * 更新
+     */
+    @Update("<script>" +
+            "update product_type set " +
+            "<if test='name != null'>name = #{name}, </if> " +
+            "<if test='code != null'>code = #{code}, </if> " +
+            "<if test='description != null'>description = #{description}, </if> " +
+            "id = id " +
+            "where id = #{id} " +
+            "</script> ")
+    void update(ProductType productType);
+
+    /**
+     * 删除
+     */
+    @Delete("delete from product_type where id = #{id}")
+    void delete(String id);
+
 
     /**
      * 分页查询
@@ -60,4 +78,18 @@ public interface ProductTypeMapper {
             "</if> " +
             "</script>")
     Integer checkNameRepeat(@Param("name")String name,@Param("id") String id);
+
+    /**
+     *
+     * @param code
+     * @param id
+     * @return
+     */
+    @Select("<script>" +
+            "select count(*) from product_type " +
+            "where code = #{code} " +
+            "<if test='id != null'> and id != #{id} " +
+            "</if> " +
+            "</script>")
+    Integer checkCodeRepeat(@Param("code")String code,@Param("id") String id);
 }

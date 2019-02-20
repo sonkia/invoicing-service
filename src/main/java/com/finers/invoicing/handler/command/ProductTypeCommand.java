@@ -14,18 +14,33 @@ public class ProductTypeCommand {
     @Autowired
     ProductTypeService productTypeService;
 
+    /**
+     * 新增
+     * @param productType
+     * @return
+     */
     @PostMapping
     public Reply add(@RequestBody ProductType productType) {
         return productTypeService.add(productType);
     }
 
+    /**
+     * 修改
+     * @param productType
+     * @return
+     */
     @PutMapping
-    public Reply update(@RequestBody Product product) {
-        return null;
+    public Reply update(@RequestBody ProductType productType) {
+        return productTypeService.update(productType);
     }
 
-    @DeleteMapping("/id")
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
     public Reply delete(@PathVariable String id) {
-        return null;
+        return productTypeService.delete(id);
     }
 }

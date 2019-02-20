@@ -15,10 +15,37 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductMapper productMapper;
 
+    /**
+     * 新增
+     * @param product
+     * @return
+     */
     @Override
     public Reply add(Product product) {
         product.setId(Generator.genUUID());
         productMapper.add(product);
+        return ReplyUtil.success();
+    }
+
+    /**
+     * 更新
+     * @param product
+     * @return
+     */
+    @Override
+    public Reply update(Product product) {
+        productMapper.update(product);
+        return ReplyUtil.success();
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @Override
+    public Reply delete(String id) {
+        productMapper.delete(id);
         return ReplyUtil.success();
     }
 
@@ -31,6 +58,23 @@ public class ProductServiceImpl implements ProductService {
     public Reply checkNameRepeat(String name, String id) {
         Reply reply = ReplyUtil.success();
         Integer count = productMapper.checkNameRepeat(name,id);
+        reply.setData(false);
+        if(count > 0) {
+            reply.setData(true);
+        }
+        return reply;
+    }
+
+    /**
+     * 检查重复code
+     * @param code
+     * @param id
+     * @return
+     */
+    @Override
+    public Reply checkCodeRepeat(String code, String id) {
+        Reply reply = ReplyUtil.success();
+        Integer count = productMapper.checkCodeRepeat(code,id);
         reply.setData(false);
         if(count > 0) {
             reply.setData(true);

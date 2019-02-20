@@ -17,6 +17,13 @@ public class ProductQuery {
     @Autowired
     ProductService productService;
 
+    /**
+     * 获取列表
+     * @param condition
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     @GetMapping
     public Reply list(@RequestParam String condition,@RequestParam Integer pageNo,@RequestParam Integer pageSize) {
         if(pageNo == null || pageNo <= 0){
@@ -28,10 +35,27 @@ public class ProductQuery {
         return productService.list(condition,pageNo,pageSize);
     }
 
+    /**
+     * 检查重名
+     * @param name
+     * @param id
+     * @return
+     */
     @GetMapping("/name/repeat")
     public Reply list(@RequestParam String name, @RequestParam String id) {
 
         return productService.checkNameRepeat(name,id);
     }
 
+    /**
+     * 查询重复code
+     * @param code
+     * @param id
+     * @return
+     */
+    @GetMapping("/code/repeat")
+    public Reply checkCodeRepeat(@RequestParam String code, @RequestParam String id) {
+
+        return productService.checkCodeRepeat(code,id);
+    }
 }
