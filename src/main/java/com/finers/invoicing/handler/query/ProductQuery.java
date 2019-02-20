@@ -28,6 +28,10 @@ public class ProductQuery {
         return productService.list(condition,pageNo,pageSize);
     }
 
+    @GetMapping("/name/repeat")
+    public Reply list(@RequestParam String name, @RequestParam String id) {
 
+        return productService.checkNameRepeat(name,id);
+    }
 
 }

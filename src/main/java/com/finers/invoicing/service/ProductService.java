@@ -11,5 +11,5 @@ public interface ProductService {
 
     Reply list(String condition,Integer pageNo,Integer pageSize);
 
-
+    Reply checkNameRepeat(String name,String id);
 }
