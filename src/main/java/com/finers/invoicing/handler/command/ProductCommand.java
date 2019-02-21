@@ -39,7 +39,7 @@ public class ProductCommand {
      * @return
      */
     @DeleteMapping("/{id}")
-    public Reply delete(@PathVariable String id) {
+    public Reply delete(@PathVariable("id") String id) {
         return productService.delete(id);
     }
 }
