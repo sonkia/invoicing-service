@@ -62,6 +62,22 @@ public interface ProductMapper {
             "</script> ")
     List<Product> list(@Param("condition") String condition, @Param("start") Integer start, @Param("offset") Integer offset);
 
+    /**
+     * 分页查询总数
+     * @param condition
+     * @return 总数
+     */
+    @Select("<script>" +
+            "SELECT count(*) from product " +
+            "where " +
+            "<if test='condition != null'>name like concat('%',#{condition},'%') " +
+            "or code like concat('%',#{condition},'%') " +
+            "or product_type like concat('%',#{condition},'%') " +
+            "</if> " +
+            "</script> ")
+    int count(@Param("condition") String condition);
+
+
     @Select("<script>" +
             "select count(*) from product " +
             "where name = #{name} " +
@@ -69,6 +85,9 @@ public interface ProductMapper {
             "</if> " +
             "</script>")
     Integer checkNameRepeat(@Param("name")String name,@Param("id") String id);
+
+    @Select("select * from product where id = #{id}")
+    Product queryById(@Param("id") String id);
 
     /**
      *

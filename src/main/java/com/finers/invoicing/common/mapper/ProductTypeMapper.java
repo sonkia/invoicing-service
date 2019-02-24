@@ -1,5 +1,6 @@
 package com.finers.invoicing.common.mapper;
 
+import com.finers.invoicing.common.entity.Product;
 import com.finers.invoicing.common.entity.ProductType;
 import org.apache.ibatis.annotations.*;
 
@@ -59,11 +60,30 @@ public interface ProductTypeMapper {
     List<ProductType> list(@Param("condition") String condition, @Param("start") Integer start, @Param("offset") Integer offset);
 
     /**
+     * 分页查询总数
+     * @param condition
+     * @return 总数
+     */
+    @Select("<script>" +
+            "SELECT count(*) from product_type " +
+            "where " +
+            "<if test='condition != null'>name like concat('%',#{condition},'%') " +
+            "or code like concat('%',#{condition},'%') " +
+            "</if> " +
+            "</script> ")
+    int count(@Param("condition") String condition);
+
+
+    /**
      * 查询产品类型名称列表
      * @return
      */
     @Select("select name from product_type")
     List<String> getProductTypeNames();
+
+
+    @Select("select * from product_type where id = #{id}")
+    Product queryById(@Param("id") String id);
 
     /**
      *

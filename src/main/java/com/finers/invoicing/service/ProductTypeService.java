@@ -15,6 +15,8 @@ public interface ProductTypeService {
 
     Reply list(String condition, Integer pageNo, Integer pageSize);
 
+    Reply queryById(String id);
+
     Reply listProductTypeNames();
 
     Reply checkNameRepeat(String name,String id);

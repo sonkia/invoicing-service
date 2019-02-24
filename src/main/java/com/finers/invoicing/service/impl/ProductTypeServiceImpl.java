@@ -1,11 +1,13 @@
 package com.finers.invoicing.service.impl;
 
+import com.finers.invoicing.common.Pagination;
 import com.finers.invoicing.common.Reply;
 import com.finers.invoicing.common.entity.ProductType;
 import com.finers.invoicing.common.mapper.ProductTypeMapper;
 import com.finers.invoicing.service.ProductTypeService;
 import com.finers.invoicing.utils.Generator;
 import com.finers.invoicing.utils.ReplyUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,13 @@ public class ProductTypeServiceImpl implements ProductTypeService {
      */
     @Override
     public Reply add(ProductType productType) {
-        productType.setId(Generator.genUUID());
-        productTypeMapper.add(productType);
+        if(StringUtils.isBlank(productType.getId())){
+            productType.setId(Generator.genUUID());
+            productTypeMapper.add(productType);
+        } else {
+            productTypeMapper.update(productType);
+        }
+
         return ReplyUtil.success();
     }
 
@@ -36,6 +43,12 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     public Reply update(ProductType productType) {
         productTypeMapper.update(productType);
         return ReplyUtil.success();
+    }
+
+    @Override
+    public Reply queryById(String id) {
+        Reply reply = ReplyUtil.success(productTypeMapper.queryById(id));
+        return reply;
     }
 
     /**
@@ -58,7 +71,13 @@ public class ProductTypeServiceImpl implements ProductTypeService {
      */
     @Override
     public Reply list(String condition,Integer pageNo,Integer pageSize) {
-        return ReplyUtil.success(productTypeMapper.list(condition,(pageNo - 1) * pageSize,pageSize));
+        Reply reply = ReplyUtil.success(productTypeMapper.list(condition,(pageNo - 1) * pageSize,pageSize));
+        Pagination pagination =  new Pagination();
+        pagination.setPageNo(pageNo);
+        pagination.setPageSize(pageSize);
+        pagination.setTotal(productTypeMapper.count(condition));
+        reply.setOption(pagination);
+        return reply;
     }
 
     /**

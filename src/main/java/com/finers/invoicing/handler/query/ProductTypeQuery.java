@@ -5,10 +5,7 @@ import com.finers.invoicing.service.ProductTypeService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Component
 @RestController
@@ -35,6 +32,18 @@ public class ProductTypeQuery {
         }
         return productTypeService.list(condition,pageNo,pageSize);
     }
+
+    /**
+     * query by id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Reply queryById(@PathVariable("id") String id) {
+
+        return productTypeService.queryById(id);
+    }
+
 
     /**
      * 查询名称列表

@@ -15,6 +15,8 @@ public interface ProductService {
 
     Reply list(String condition,Integer pageNo,Integer pageSize);
 
+    Reply queryById(String id);
+
     Reply checkNameRepeat(String name,String id);
 
     Reply checkCodeRepeat(String code,String id);
